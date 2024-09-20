@@ -335,6 +335,7 @@ class DeviceTypeType(NetBoxObjectType):
     rear_image: strawberry_django.fields.types.DjangoImageType | None
     manufacturer: Annotated["ManufacturerType", strawberry.lazy('dcim.graphql.types')]
     default_platform: Annotated["PlatformType", strawberry.lazy('dcim.graphql.types')] | None
+    layout: str
 
     frontporttemplates: List[Annotated["FrontPortTemplateType", strawberry.lazy('dcim.graphql.types')]]
     modulebaytemplates: List[Annotated["ModuleBayTemplateType", strawberry.lazy('dcim.graphql.types')]]

@@ -1,0 +1,16 @@
+{% load helpers %}
+{% load i18n %}
+
+<div class="card">
+  <h5 class="card-header">
+    {% trans "Device layout" %}
+  </h5>
+  <div class="card-body">
+    {% if object.layout %}
+      {% include "dcim/devicetype/device_layout_render.html" with value=object.escaped_layout name="inc" %}
+      {{ object.layout }}
+    {% else %}
+      <span class="text-muted">{% trans "None" %}</span>
+    {% endif %}
+  </div>
+</div>

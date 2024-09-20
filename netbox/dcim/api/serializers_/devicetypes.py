@@ -31,6 +31,7 @@ class DeviceTypeSerializer(NetBoxModelSerializer):
     weight_unit = ChoiceField(choices=WeightUnitChoices, allow_blank=True, required=False, allow_null=True)
     front_image = serializers.ImageField(required=False, allow_null=True)
     rear_image = serializers.ImageField(required=False, allow_null=True)
+    layout = serializers.JSONField(required=False, allow_null=True)
 
     # Counter fields
     console_port_template_count = serializers.IntegerField(read_only=True)
@@ -57,6 +58,7 @@ class DeviceTypeSerializer(NetBoxModelSerializer):
             'console_server_port_template_count', 'power_port_template_count', 'power_outlet_template_count',
             'interface_template_count', 'front_port_template_count', 'rear_port_template_count',
             'device_bay_template_count', 'module_bay_template_count', 'inventory_item_template_count',
+            'layout',
         ]
         brief_fields = ('id', 'url', 'display', 'manufacturer', 'model', 'slug', 'description', 'device_count')
 

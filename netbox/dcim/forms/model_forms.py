@@ -16,7 +16,7 @@ from utilities.forms.fields import (
     CommentField, DynamicModelChoiceField, DynamicModelMultipleChoiceField, JSONField, NumericArrayField, SlugField,
 )
 from utilities.forms.rendering import FieldSet, InlineFields, TabbedGroups
-from utilities.forms.widgets import APISelect, ClearableFileInput, HTMXSelect, NumberWithOptions, SelectWithPK
+from utilities.forms.widgets import APISelect, ClearableFileInput, DeviceLayoutWidget, HTMXSelect, NumberWithOptions, SelectWithPK
 from virtualization.models import Cluster
 from wireless.models import WirelessLAN, WirelessLANGroup
 from .common import InterfaceCommonForm, ModuleCommonForm
@@ -362,6 +362,11 @@ class DeviceTypeForm(NetBoxModelForm):
         label=_('Slug'),
         slug_source='model'
     )
+    layout = forms.JSONField(
+        label=_('Device layout'),
+        widget=DeviceLayoutWidget,
+        required=False,
+    )
     comments = CommentField()
 
     fieldsets = (
@@ -370,6 +375,7 @@ class DeviceTypeForm(NetBoxModelForm):
             'u_height', 'exclude_from_utilization', 'is_full_depth', 'part_number', 'subdevice_role', 'airflow',
             'weight', 'weight_unit', name=_('Chassis')
         ),
+        FieldSet('layout', name=_('Layout')),
         FieldSet('front_image', 'rear_image', name=_('Images')),
     )
 
@@ -377,7 +383,7 @@ class DeviceTypeForm(NetBoxModelForm):
         model = DeviceType
         fields = [
             'manufacturer', 'model', 'slug', 'default_platform', 'part_number', 'u_height', 'exclude_from_utilization',
-            'is_full_depth', 'subdevice_role', 'airflow', 'weight', 'weight_unit', 'front_image', 'rear_image',
+            'is_full_depth', 'subdevice_role', 'airflow', 'layout', 'weight', 'weight_unit', 'front_image', 'rear_image',
             'description', 'comments', 'tags',
         ]
         widgets = {

@@ -1,0 +1,48 @@
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/variables-dark';
+
+// For small screens
+.layout-widg .layout-device {
+    max-width: 400px;
+    min-width: 300px;
+    min-height: 40px;
+}
+.layout-widg td button {
+    padding: 0.2em;
+}
+
+.layout-widg td button.wide {
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
+
+// For normal screens
+@include media-breakpoint-up(lg) {
+    .layout-widg .layout-device {
+        max-width: 600px;
+        min-width: 400px;
+        min-height: 50px;
+    }
+    .layout-widg td button {
+        padding: 0.3em;
+    }
+    .layout-widg td button .wide {
+        padding: 0.6em !important;
+    }
+}
+
+// Layout style
+
+.layout-widg span,
+.layout-widg td {
+    padding: 0px !important;
+}
+
+.layout-widg td button {
+    display: flex;
+    border-radius: 0;
+}
+
+.layout-widg td {
+    border: 2px solid black;
+}

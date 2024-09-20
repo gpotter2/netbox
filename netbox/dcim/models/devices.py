@@ -1,4 +1,5 @@
 import decimal
+import json
 import yaml
 
 from functools import cached_property
@@ -23,6 +24,7 @@ from netbox.config import ConfigItem
 from netbox.models import OrganizationalModel, PrimaryModel
 from netbox.models.features import ContactsMixin, ImageAttachmentsMixin
 from utilities.fields import ColorField, CounterCacheField, NaturalOrderingField
+from utilities.json import CustomFieldJSONEncoder
 from utilities.tracking import TrackingModelMixin
 from .device_components import *
 from .mixins import RenderConfigMixin, WeightMixin
@@ -138,6 +140,28 @@ class DeviceType(ImageAttachmentsMixin, PrimaryModel, WeightMixin):
         upload_to='devicetype-images',
         blank=True
     )
+    layout = models.JSONField(
+        verbose_name=_('layout'),
+        default=lambda: {
+            "cols": [
+                {
+                    "rows": 2,
+                    "cols": 24,
+                    "class": "align-self-center",
+                    "mclass": "",
+                    "cclass": "",
+                },
+                {
+                    "rows": 1,
+                    "cols": 4,
+                    "class": "align-self-end",
+                    "mclass": "",
+                    "cclass": "",
+                },
+            ]
+        },
+        encoder=CustomFieldJSONEncoder
+    )
 
     # Counter fields
     console_port_template_count = CounterCacheField(
@@ -183,7 +207,7 @@ class DeviceType(ImageAttachmentsMixin, PrimaryModel, WeightMixin):
 
     clone_fields = (
         'manufacturer', 'default_platform', 'u_height', 'is_full_depth', 'subdevice_role', 'airflow', 'weight',
-        'weight_unit',
+        'weight_unit', 'layout'
     )
     prerequisite_models = (
         'dcim.Manufacturer',
@@ -224,6 +248,10 @@ class DeviceType(ImageAttachmentsMixin, PrimaryModel, WeightMixin):
     def full_name(self):
         return f"{self.manufacturer} {self.model}"
 
+    def escaped_layout(self):
+        # Need a little nudge to help django escape it
+        return json.dumps(self.layout)
+
     def to_yaml(self):
         data = {
             'manufacturer': self.manufacturer.name,
@@ -239,6 +267,7 @@ class DeviceType(ImageAttachmentsMixin, PrimaryModel, WeightMixin):
             'weight': float(self.weight) if self.weight is not None else None,
             'weight_unit': self.weight_unit,
             'comments': self.comments,
+            'layout': self.layout,
         }
 
         # Component templates

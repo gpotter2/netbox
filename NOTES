@@ -1,0 +1,7 @@
+psql --username netbox --password --host localhost netbox
+J5brHrAXFLQSif0K
+
+python3 manage.py runserver 0.0.0.0:8000 --insecure
+
+cd git/netbox/netbox/project-static
+inotifywait -m --exclude dist -r . -e modify | while read f; do yarn bundle; done

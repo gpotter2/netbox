@@ -1,0 +1,12 @@
+<!-- Edit form of the device layout -->
+<div class="row g-3 align-items-center justify-content-end layout-widg-edit">
+    {% include "dcim/devicetype/device_layout_render.html" with name=widget.name value=widget.value %}
+    <div class="col-12">
+        <ol class="list-group list-group-numbered layout-widg-edit-elements">
+            
+        </ol>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary layout-widg-edit-addbtn" type="button">Add element</button>
+    </div>
+</div>

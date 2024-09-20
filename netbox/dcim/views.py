@@ -1045,6 +1045,7 @@ class DeviceTypeInterfacesView(DeviceTypeComponentsView):
         weight=520,
         hide_if_empty=True
     )
+    template_name = 'dcim/devicetype/interfaces.html'
 
 
 @register_model_view(DeviceType, 'frontports', path='front-ports')
